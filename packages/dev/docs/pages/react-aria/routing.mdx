@@ -277,10 +277,10 @@ import {useRouter, type RegisteredRouter, type NavigateOptions, type ToOptions} 
 import {RouterProvider} from 'react-aria-components';
 
 declare module 'react-aria-components' {
-  interface RouterConfig {
-    href: ToPathOption<RegisteredRouter['routeTree']>;
-    routerOptions: Omit<NavigateOptions, keyof ToOptions>
-  }
+	interface RouterConfig {
+		href: ToPathOption<RegisteredRouter, '/', '/'> | ({} & string);
+		routerOptions: Omit<NavigateOptions, 'to' | 'from'>;
+	}
 }
 
 function RootRoute() {
@@ -288,7 +288,7 @@ function RootRoute() {
   return (
     <RouterProvider 
       navigate={(to, options) => router.navigate({to, ...options})}
-      useHref={to => router.buildLocation(to).href}>
+      useHref={to => router.buildLocation({ to }).href}>
       {/* ...*/}
     </RouterProvider>
   );
